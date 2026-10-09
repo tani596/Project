@@ -1,0 +1,75 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --background: #f8faf5;
+    --foreground: #1c2820;
+    --card: #ffffff;
+    --card-foreground: #1c2820;
+    --primary: #15803d;
+    --primary-foreground: #ffffff;
+    --primary-hover: #166534;
+    --primary-light: #ecfdf5;
+    --water: #0284c7;
+    --water-light: #f0f9ff;
+    --warning: #d97706;
+    --warning-light: #fffbeb;
+    --danger: #dc2626;
+    --danger-light: #fef2f2;
+    --muted: #64748b;
+    --muted-bg: #f1f5f2;
+    --border: #e2e8f0;
+    --radius: 0.75rem;
+  }
+
+  .dark {
+    --background: #0d1510;
+    --foreground: #f1f5f2;
+    --card: #152219;
+    --card-foreground: #f1f5f2;
+    --primary: #22c55e;
+    --primary-foreground: #092612;
+    --primary-hover: #16a34a;
+    --primary-light: #12281b;
+    --water: #38bdf8;
+    --water-light: #082f49;
+    --warning: #fbbf24;
+    --warning-light: #451a03;
+    --danger: #f87171;
+    --danger-light: #450a0a;
+    --muted: #94a3b8;
+    --muted-bg: #1c2b21;
+    --border: #24382c;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  }
+
+  h1, h2, h3, h4, .font-display {
+    font-family: 'Space Grotesk', 'Plus Jakarta Sans', system-ui, sans-serif;
+  }
+}
+
+/* Custom scrollbars and transitions */
+* {
+  border-color: var(--border);
+}
+
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .print-only {
+    display: block !important;
+  }
+  .print-break {
+    page-break-before: always;
+  }
+}

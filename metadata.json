@@ -1,0 +1,6 @@
+{
+  "name": "Rice Methane & Yield Advisor",
+  "description": "Practical, stage-aware field advice to cut rice paddy methane emissions while keeping yields steady. Designed for rice growers and field agronomists.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
