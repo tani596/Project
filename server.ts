@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import { createServer as createViteServer } from 'vite';
 import path from 'path';
 import fs from 'fs';
+import net from 'net';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 import { GoogleGenAI, Type } from '@google/genai';
@@ -424,16 +425,33 @@ app.patch('/api/saved-fields/:id/feedback', (req: Request, res: Response) => {
   res.json({ field });
 });
 
+function getAvailablePort(startPort: number): Promise<number> {
+  return new Promise((resolve) => {
+    const tester = net.createServer();
+
+    tester.once('error', () => {
+      resolve(getAvailablePort(startPort + 1));
+    });
+
+    tester.once('listening', () => {
+      tester.close(() => resolve(startPort));
+    });
+
+    tester.listen(startPort, '0.0.0.0');
+  });
+}
+
 // Setup dev server with Vite or production static files
 async function startServer() {
   const isProd = process.env.NODE_ENV === 'production';
+  const selectedPort = await getAvailablePort(PORT);
 
   if (!isProd) {
     const vite = await createViteServer({
       server: {
         middlewareMode: true,
         host: '0.0.0.0',
-        port: PORT,
+        port: selectedPort,
       },
       appType: 'spa',
     });
@@ -446,8 +464,8 @@ async function startServer() {
     });
   }
 
-  app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Rice Methane Advisor server running at http://0.0.0.0:${PORT}`);
+  app.listen(selectedPort, '0.0.0.0', () => {
+    console.log(`Rice Methane Advisor server running at http://0.0.0.0:${selectedPort}`);
   });
 }
 
