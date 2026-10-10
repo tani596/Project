@@ -44,3 +44,4 @@ The **Rice-field Methane & Yield Advisor** bridges this gap:
 ## Security
 
 All AI calls run server-side only. API keys are accessed via `process.env.GEMINI_API_KEY` on the server and are never exposed to browser bundles.
+shiva
