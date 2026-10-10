@@ -36,9 +36,9 @@ const MainApp: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-background text-foreground transition-colors">
+    <div className="min-h-screen flex flex-col bg-background text-foreground transition-colors max-w-full overflow-x-hidden">
       <Header />
-      <main className="flex-1">
+      <main className="flex-1 max-w-full overflow-x-hidden">
         <Hero />
         <StorySections />
         <Workspace />

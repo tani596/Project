@@ -15,19 +15,19 @@ export const Header: React.FC = () => {
   };
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-border bg-card/95 backdrop-blur-md transition-colors">
+    <header className="sticky top-0 z-40 w-full border-b border-border bg-card shadow-xs transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Brand logo */}
-        <div className="flex items-center space-x-3 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-          <div className="w-10 h-10 rounded-xl bg-emerald-600/10 text-emerald-700 dark:text-emerald-400 border border-emerald-600/20 flex items-center justify-center shadow-xs">
-            <Sprout className="w-6 h-6 stroke-[2.2]" />
+        <div className="flex items-center space-x-2 sm:space-x-3 cursor-pointer min-w-0" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-emerald-600/10 text-emerald-700 dark:text-emerald-400 border border-emerald-600/20 flex items-center justify-center shadow-xs shrink-0">
+            <Sprout className="w-5 h-5 sm:w-6 sm:h-6 stroke-[2.2]" />
           </div>
-          <div>
-            <span className="font-display font-bold text-lg sm:text-xl tracking-tight text-foreground block leading-tight">
+          <div className="min-w-0">
+            <span className="font-display font-bold text-sm sm:text-lg lg:text-xl tracking-tight text-foreground block leading-tight truncate">
               {t.appName}
             </span>
-            <span className="text-[11px] font-medium text-emerald-800 dark:text-emerald-400 block -mt-0.5">
-              IRRI & ICAR Agronomic Alignment
+            <span className="text-[10px] sm:text-[11px] font-medium text-emerald-800 dark:text-emerald-400 block -mt-0.5 truncate">
+              Stage-Aware Field Rules
             </span>
           </div>
         </div>
@@ -67,24 +67,25 @@ export const Header: React.FC = () => {
           {/* Theme Toggle */}
           <button
             onClick={toggleDarkMode}
-            aria-label="Toggle dark mode"
-            className="p-2 rounded-lg border border-border bg-muted-bg hover:bg-card text-foreground transition-all"
+            aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+            title={isDark ? "Switch to light mode" : "Switch to dark mode"}
+            className="p-2 rounded-lg border border-border bg-muted-bg hover:bg-card text-foreground transition-all cursor-pointer flex items-center justify-center shadow-xs"
           >
-            {isDark ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-slate-600" />}
+            {isDark ? (
+              <Sun className="w-4 h-4 text-amber-400 transition-transform duration-300 rotate-0 hover:rotate-45" />
+            ) : (
+              <Moon className="w-4 h-4 text-emerald-800 transition-transform duration-300 -rotate-12 hover:rotate-0" />
+            )}
           </button>
 
           {/* User / Sign In Button */}
           <button
             onClick={() => setIsAuthOpen(true)}
-            className={`text-sm font-semibold px-3 py-1.5 rounded-lg border transition-all flex items-center space-x-1.5 ${
-              user.isGuest
-                ? 'border-emerald-600/30 bg-emerald-50 text-emerald-800 dark:bg-emerald-950/50 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-900/60'
-                : 'border-border bg-card text-foreground hover:bg-muted-bg'
-            }`}
+            className="text-sm font-semibold px-3 py-1.5 rounded-lg border border-[#004036] bg-[#002c25] text-white hover:bg-[#003830] transition-all flex items-center space-x-1.5 cursor-pointer shadow-xs"
           >
-            <User className="w-4 h-4" />
+            <User className="w-4 h-4 text-emerald-300" />
             <span>{user.isGuest ? t.navSignIn : user.name.split(' ')[0]}</span>
-            {!user.isGuest && <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />}
+            {!user.isGuest && <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />}
           </button>
         </nav>
 
@@ -98,10 +99,11 @@ export const Header: React.FC = () => {
           </button>
           <button
             onClick={toggleDarkMode}
-            aria-label="Toggle dark mode"
-            className="p-1.5 rounded border border-border bg-muted-bg text-foreground"
+            aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+            title={isDark ? "Switch to light mode" : "Switch to dark mode"}
+            className="p-1.5 rounded-lg border border-border bg-muted-bg text-foreground cursor-pointer flex items-center justify-center"
           >
-            {isDark ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-slate-600" />}
+            {isDark ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-emerald-800" />}
           </button>
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}

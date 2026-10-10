@@ -35,7 +35,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   });
 
   const [isDark, setIsDark] = useState<boolean>(() => {
-    return localStorage.getItem('rice_advisor_theme') === 'dark';
+    const saved = localStorage.getItem('rice_advisor_theme');
+    if (saved) return saved === 'dark';
+    return typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
   });
 
   const [user, setUserState] = useState<UserProfile>(() => {
@@ -58,9 +60,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   useEffect(() => {
     if (isDark) {
       document.documentElement.classList.add('dark');
+      document.documentElement.style.colorScheme = 'dark';
       localStorage.setItem('rice_advisor_theme', 'dark');
     } else {
       document.documentElement.classList.remove('dark');
+      document.documentElement.style.colorScheme = 'light';
       localStorage.setItem('rice_advisor_theme', 'light');
     }
   }, [isDark]);

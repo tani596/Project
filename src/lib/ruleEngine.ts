@@ -69,7 +69,7 @@ export function evaluateFieldRules(inputs: FieldInputs): RuleEngineResult {
     } else {
       yield_risk = 'low';
       rules_applied.push(
-        `Alternate wetting and drying applied during "${inputs.growthStage}": Soil aeration cuts methanogen populations by 30-50% while root development remains safe.`
+        `Alternate wetting and drying applied during "${inputs.growthStage}": Soil aeration suppresses methanogen populations, likely lowering methane while root development remains safe.`
       );
     }
   }
@@ -185,8 +185,8 @@ export function generateRuleFallbackAdvice(
         ? 'पानी देना बंद करें और एक छिद्रित प्लास्टिक पाइप (pani pipe) स्थापित करें'
         : 'Halt irrigation inlet and install a field water tube (pani pipe) to track water depth',
       why: isHi
-        ? 'मिट्टी में हवा जाने से मीथेन गैस का उत्सर्जन तुरंत 35-45% तक कम हो जाता है।'
-        : 'Aerating the root zone interrupts methanogen bacteria and cuts methane up to 45%.',
+        ? 'मिट्टी में हवा जाने से मीथेन बैक्टीरिया शांत होते हैं और उत्सर्जन कम होने की संभावना रहती है।'
+        : 'Aerating the root zone interrupts methanogen bacteria and is likely to lower methane.',
     });
   } else {
     top_priority = isHi
@@ -262,8 +262,8 @@ export function generateRuleFallbackAdvice(
     : `Based on submitted stage "${inputs.growthStage}", water condition "${inputs.waterCondition}", and reported urea dose (${ureaStr}).`;
 
   const trade_off_notes = isHi
-    ? `AWD तकनीक से पैदावार में कोई कमी आए बिना मीथेन में 30% से 50% तक की कमी संभव है, बशर्ते फूल आने के समय पानी की कमी न होने दी जाए।`
-    : `Safe Alternate Wetting & Drying safely lowers methane while keeping grain yields steady, provided soil is never drained during anthesis/flowering.`;
+    ? `AWD तकनीक से पैदावार सामान्य रहने की उम्मीद के साथ मीथेन में संभावित कमी होती है, बशर्ते फूल आने के समय पानी की कमी न होने दी जाए।`
+    : `Safe Alternate Wetting & Drying safely lowers methane while keeping grain yields about steady, provided soil is never drained during anthesis/flowering.`;
 
   const direction_of_change = isHi
     ? `मीथेन में संभावित कमी, उपज सामान्य बनी रहने की उम्मीद (स्थानीय पुष्टि आवश्यक)`
