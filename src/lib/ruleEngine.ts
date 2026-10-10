@@ -173,7 +173,8 @@ export function generateRuleFallbackAdvice(
   lang: 'en' | 'hi' = 'en'
 ): AdviceResult {
   const isHi = lang === 'hi';
-  const ureaStr = inputs.lastUreaDose ? `${inputs.lastUreaDose} kg/ha` : (isHi ? 'अनपेक्षित' : 'unspecified');
+  const hasUreaDose = inputs.lastUreaDose !== undefined && inputs.lastUreaDose !== null && inputs.lastUreaDose !== '';
+  const ureaStr = hasUreaDose ? `${inputs.lastUreaDose} kg/ha` : (isHi ? 'अनपेक्षित' : 'unspecified');
 
   let top_priority = '';
   const steps: AdviceResult['steps'] = [];
@@ -221,7 +222,7 @@ export function generateRuleFallbackAdvice(
   }
 
   // Step 2: Nitrogen timing
-  const ureaNum = Number(inputs.lastUreaDose);
+  const ureaNum = hasUreaDose ? Number(inputs.lastUreaDose) : NaN;
   if (!Number.isNaN(ureaNum) && ureaNum > 75) {
     steps.push({
       priority: 'Soon',

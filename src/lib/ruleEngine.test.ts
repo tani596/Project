@@ -136,5 +136,18 @@ export function runRuleEngineTests(): { passed: number; failed: number; results:
   const res8 = evaluateFieldRules(test8Input);
   assert('Empty coordinate and blank urea values are treated as missing inputs', res8.missing_inputs.some(item => item.includes('coordinates') || item.includes('Field name')) || res8.confidence === 'low');
 
+  // Test 9: Zero is a valid reported urea dose, not an empty value
+  const test9Input: FieldInputs = {
+    fieldName: 'Zero urea plot',
+    latitude: 29.69,
+    longitude: 76.99,
+    growthStage: 'tillering',
+    waterCondition: 'alternate_wetting_drying',
+    leafColor: 'healthy_green',
+    lastUreaDose: 0,
+  };
+  const res9 = evaluateFieldRules(test9Input);
+  assert('Zero urea dose is understood as a real value', !Number.isNaN(Number(test9Input.lastUreaDose)) && res9.confidence !== 'low');
+
   return { passed, failed, results };
 }

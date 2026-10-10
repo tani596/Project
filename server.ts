@@ -16,6 +16,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
+const HOST = process.env.HOST || 'localhost';
 const PORT = Number(process.env.PORT) || 3000;
 
 app.use(express.json({ limit: '1mb' }));
@@ -139,13 +140,14 @@ Strictly adhere to the fixed facts computed by the agronomic rule engine. Do not
 
 Language requirement: Provide all textual explanations, priorities, steps, and reasons in ${lang === 'hi' ? 'Hindi (हिंदी)' : 'English'}. Enums and JSON keys must remain in English.`;
 
+    const hasUreaDose = inputs.lastUreaDose !== undefined && inputs.lastUreaDose !== null && inputs.lastUreaDose !== '';
     const userPrompt = `Submitted Grower Inputs:
 Field Name: "${inputs.fieldName}"
 Location: Latitude ${inputs.latitude}, Longitude ${inputs.longitude}
 Growth Stage: "${inputs.growthStage}"
 Water Condition: "${inputs.waterCondition}"
 Canopy / Leaf Color: "${inputs.leafColor}"
-Last Urea Dose: "${inputs.lastUreaDose ? inputs.lastUreaDose + ' kg/ha' : 'Not specified'}"
+Last Urea Dose: "${hasUreaDose ? inputs.lastUreaDose + ' kg/ha' : 'Not specified'}"
 Grower Field Notes: "${inputs.notes || 'None'}"
 
 Computed Risk Baseline (Fixed Facts):
@@ -217,7 +219,7 @@ Respond strictly in valid JSON format matching this schema:
     }
 
     // Build the 4-step agent trace quoting user values
-    const ureaStr = inputs.lastUreaDose ? `${inputs.lastUreaDose} kg/ha` : (lang === 'hi' ? 'अनपेक्षित' : 'unspecified');
+    const ureaStr = hasUreaDose ? `${inputs.lastUreaDose} kg/ha` : (lang === 'hi' ? 'अनपेक्षित' : 'unspecified');
     const agent_trace = [
       {
         step: 'Inputs received',
@@ -450,7 +452,7 @@ function getAvailablePort(startPort: number): Promise<number> {
       tester.close(() => resolve(startPort));
     });
 
-    tester.listen(startPort, '0.0.0.0');
+    tester.listen(startPort, HOST);
   });
 }
 
@@ -464,7 +466,7 @@ async function startServer() {
     const vite = await createViteServer({
       server: {
         middlewareMode: true,
-        host: '0.0.0.0',
+        host: HOST,
         port: selectedPort,
         ws: {
           server: httpServer,
@@ -481,8 +483,8 @@ async function startServer() {
     });
   }
 
-  httpServer.listen(selectedPort, '0.0.0.0', () => {
-    console.log(`Rice Methane Advisor server running at http://0.0.0.0:${selectedPort}`);
+  httpServer.listen(selectedPort, HOST, () => {
+    console.log(`Rice Methane Advisor server running at http://${HOST}:${selectedPort}`);
   });
 }
 
