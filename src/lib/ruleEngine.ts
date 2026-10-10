@@ -7,11 +7,23 @@ import { FieldInputs, RuleEngineResult, AdviceResult, GrowthStage, WaterConditio
 export function evaluateFieldRules(inputs: FieldInputs): RuleEngineResult {
   const rules_applied: string[] = [];
   const missing_inputs: string[] = [];
+  const fieldName = String(inputs.fieldName ?? '').trim();
+
+  const parseNumeric = (value: number | string | undefined | null): number => {
+    if (value === undefined || value === null || value === '') {
+      return NaN;
+    }
+
+    if (typeof value === 'string' && value.trim() === '') {
+      return NaN;
+    }
+
+    const parsed = Number(value);
+    return Number.isFinite(parsed) ? parsed : NaN;
+  };
 
   // Parse and validate numeric urea dose
-  const ureaDoseNum = inputs.lastUreaDose !== undefined && inputs.lastUreaDose !== ''
-    ? Number(inputs.lastUreaDose)
-    : NaN;
+  const ureaDoseNum = parseNumeric(inputs.lastUreaDose);
 
   let is_implausible_urea = false;
   if (!Number.isNaN(ureaDoseNum)) {
@@ -23,10 +35,14 @@ export function evaluateFieldRules(inputs: FieldInputs): RuleEngineResult {
   }
 
   // Check coordinates validity
-  const lat = Number(inputs.latitude);
-  const lon = Number(inputs.longitude);
+  const lat = parseNumeric(inputs.latitude);
+  const lon = parseNumeric(inputs.longitude);
   if (Number.isNaN(lat) || lat < -90 || lat > 90 || Number.isNaN(lon) || lon < -180 || lon > 180) {
     missing_inputs.push('Valid field coordinates (-90° to 90° lat, -180° to 180° lon)');
+  }
+
+  if (!fieldName) {
+    missing_inputs.push('Field name');
   }
 
   if (!inputs.growthStage) {
@@ -132,7 +148,7 @@ export function evaluateFieldRules(inputs: FieldInputs): RuleEngineResult {
   }
 
   // Rule 7: Missing or vague inputs -> confidence low
-  if (missing_inputs.length > 0 || Number.isNaN(ureaDoseNum) || inputs.fieldName.trim().length === 0) {
+  if (missing_inputs.length > 0 || Number.isNaN(ureaDoseNum) || fieldName.length === 0) {
     confidence = missing_inputs.length >= 2 ? 'low' : 'medium';
   }
 

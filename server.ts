@@ -76,14 +76,26 @@ let inMemorySavedFields: SavedField[] = ensureDataStorage();
 // Sanitize inputs
 function sanitizeInputs(body: any): FieldInputs {
   const fieldName = String(body.fieldName || 'My Rice Paddy').slice(0, 100).trim();
-  const lat = Math.max(-90, Math.min(90, Number(body.latitude) || 0));
-  const lon = Math.max(-180, Math.min(180, Number(body.longitude) || 0));
+
+  const parseNumericInput = (value: unknown): number | '' => {
+    if (value === undefined || value === null || value === '') {
+      return '';
+    }
+
+    if (typeof value === 'string' && value.trim() === '') {
+      return '';
+    }
+
+    const parsed = Number(value);
+    return Number.isFinite(parsed) ? parsed : '';
+  };
+
+  const lat = parseNumericInput(body.latitude);
+  const lon = parseNumericInput(body.longitude);
   const growthStage = body.growthStage || 'tillering';
   const waterCondition = body.waterCondition || 'continuously_flooded';
   const leafColor = body.leafColor || 'healthy_green';
-  const lastUreaDose = body.lastUreaDose !== undefined && body.lastUreaDose !== ''
-    ? Math.max(0, Math.min(1000, Number(body.lastUreaDose)))
-    : '';
+  const lastUreaDose = parseNumericInput(body.lastUreaDose);
   const notes = String(body.notes || '').slice(0, 500).trim();
   const language = body.language === 'hi' ? 'hi' : 'en';
 

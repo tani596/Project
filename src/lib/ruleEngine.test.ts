@@ -123,5 +123,18 @@ export function runRuleEngineTests(): { passed: number; failed: number; results:
   const res7 = evaluateFieldRules(test7Input);
   assert('Missing coordinates and vague inputs sets low confidence', res7.confidence === 'low' || res7.confidence === 'medium');
 
+  // Test 8: Empty string coordinates and urea should not be treated as valid values
+  const test8Input: FieldInputs = {
+    fieldName: 'Trim test',
+    latitude: '',
+    longitude: '  ',
+    growthStage: 'tillering',
+    waterCondition: 'alternate_wetting_drying',
+    leafColor: 'healthy_green',
+    lastUreaDose: '',
+  };
+  const res8 = evaluateFieldRules(test8Input);
+  assert('Empty coordinate and blank urea values are treated as missing inputs', res8.missing_inputs.some(item => item.includes('coordinates') || item.includes('Field name')) || res8.confidence === 'low');
+
   return { passed, failed, results };
 }
