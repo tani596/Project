@@ -37,18 +37,18 @@ export const Hero: React.FC = () => {
             </p>
 
             {/* Quick trust metrics */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-2 text-xs font-medium text-foreground/80">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 text-xs font-medium text-foreground/80">
               <div className="flex items-center space-x-2 p-2.5 rounded-lg bg-card border border-border">
                 <Leaf className="w-4 h-4 text-emerald-600 shrink-0" />
-                <span>Up to 45% lower CH₄</span>
+                <span>Stage-aware rules</span>
               </div>
               <div className="flex items-center space-x-2 p-2.5 rounded-lg bg-card border border-border">
                 <CheckCircle className="w-4 h-4 text-sky-600 shrink-0" />
-                <span>Zero yield penalty</span>
+                <span>Explainable risk levels</span>
               </div>
-              <div className="col-span-2 sm:col-span-1 flex items-center space-x-2 p-2.5 rounded-lg bg-card border border-border">
+              <div className="flex items-center space-x-2 p-2.5 rounded-lg bg-card border border-border">
                 <ShieldAlert className="w-4 h-4 text-amber-600 shrink-0" />
-                <span>Stage-safe rules</span>
+                <span>Confirm with a local agronomist</span>
               </div>
             </div>
 

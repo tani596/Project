@@ -4,10 +4,10 @@ Practical, stage-aware field advice to cut rice paddy methane emissions while ke
 
 ## What The Application Does
 
-Continuous submergence in flooded rice paddies creates anaerobic soil conditions where methanogenic bacteria flourish, contributing an estimated 10-12% of agricultural greenhouse gas emissions. While Alternate Wetting and Drying (AWD) is proven to cut methane by 30-50%, growers are cautious because improper water drainage during critical crop stages (such as flowering/anthesis) can induce severe spikelet sterility and yield loss.
+Continuous submergence in flooded rice paddies creates anaerobic soil conditions where methanogenic bacteria flourish, contributing a notable portion of agricultural greenhouse gas emissions. While Alternate Wetting and Drying (AWD) is recognized to help lower methane emissions, growers are cautious because improper water drainage during critical crop stages (such as flowering/anthesis) can induce severe spikelet sterility and yield loss.
 
 The **Rice-field Methane & Yield Advisor** bridges this gap:
-- **Agronomic Rule Engine**: Pure deterministic calculations evaluate crop growth stage, field water condition, and leaf canopy nitrogen status against research-backed agronomic guidelines (IRRI & ICAR).
+- **Agronomic Rule Engine**: Pure deterministic calculations evaluate crop growth stage, field water condition, and leaf canopy nitrogen status against stage-aware agronomic rules.
 - **AI Field Advisor Agent**: Formulates clear, stage-specific actions, calculates trade-offs, and provides actionable weekly steps while preventing yield risk.
 - **Scenario Contrast**: Allows side-by-side comparison of current water practices versus AWD.
 - **Action Checklist & History**: Ticks off field steps and saves paddies for season reviews.

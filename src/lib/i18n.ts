@@ -153,7 +153,7 @@ export const translations: Record<Language, Translations> = {
     navSignOut: 'Sign out',
 
     problemHeading: 'The Problem: The Submerged Paddy Dilemma',
-    problemBody: 'Flooded rice fields account for ~10% of global agricultural methane emissions because continuous standing water creates an oxygen-free zone where methanogenic bacteria flourish. However, growers rightly fear that draining fields or adjusting nitrogen timings will stress plants, cause sterile panicles, and reduce harvest weight. Accessible, field-calibrated guidance is lacking.',
+    problemBody: 'Flooded rice fields are a notable source of agricultural methane emissions because continuous standing water creates an oxygen-free zone where methanogenic bacteria flourish. However, growers rightly fear that draining fields or adjusting nitrogen timings will stress plants, cause sterile panicles, and reduce harvest weight. Accessible, field-calibrated guidance is lacking.',
     solutionHeading: 'Our Solution: An AI Field Advisor Agent',
     solutionBody: 'We combine agronomic science with an AI Field Advisor. By assessing your exact growth stage, standing water condition, and leaf nitrogen cues, the advisor formulates safe wetting-and-drying schedules and precision nitrogen splits. You slash methane while keeping crop yield steady.',
 
@@ -245,9 +245,9 @@ export const translations: Record<Language, Translations> = {
     saveFieldGuestPrompt: 'Sign in to sync your saved fields across devices (saved locally for now)',
 
     basicsHeading: 'Methane-Saving Basics',
-    basicsSub: 'General agronomic principles proven by international and national rice research institutes (IRRI & ICAR). Always confirm locally.',
+    basicsSub: 'General agronomic principles for rice water and nutrient management. Always confirm locally.',
     awdCardTitle: 'Alternate Wetting & Drying (AWD)',
-    awdCardBody: 'Periodic soil drying allows oxygen to enter pore spaces, suppressing anaerobic methanogenic microbes by 30-50% while saving 15-30% of irrigation water without yield penalty when avoided during flowering.',
+    awdCardBody: 'Periodic soil drying allows oxygen to enter pore spaces, suppressing anaerobic methanogenic microbes; this is likely to lower methane while keeping yield about steady when soil drying is avoided during flowering.',
     nitrogenCardTitle: 'Split Nitrogen Timing & Placement',
     nitrogenCardBody: 'Applying urea in 3-4 small splits synchronized with leaf color chart (LCC) readings prevents excess nitrogen leaching, cuts nitrous oxide, and avoids stimulating methanogen growth.',
     strawCardTitle: 'Straw Management & Aerobic Decomposition',
@@ -281,7 +281,7 @@ export const translations: Record<Language, Translations> = {
     navSignOut: 'लॉग आउट',
 
     problemHeading: 'समस्या: लगातार भरे पानी की चुनौती',
-    problemBody: 'दुनिया भर में कृषि से होने वाले मीथेन उत्सर्जन का लगभग 10-12% हिस्सा धान के खेतों से आता है, क्योंकि लगातार पानी भरे रहने से मिट्टी में ऑक्सीजन खत्म हो जाती है। लेकिन किसान डरते हैं कि खेत सुखाने या खाद में बदलाव करने से पैदावार गिर जाएगी। किसानों के पास खेत-विशिष्ट सटीक सलाह का अभाव है।',
+    problemBody: 'धान के खेतों में लगातार पानी भरे रहने से मिट्टी में ऑक्सीजन खत्म हो जाती है और मीथेन गैस उत्पन्न होती है। लेकिन किसान डरते हैं कि खेत सुखाने या खाद में बदलाव करने से पैदावार गिर जाएगी। किसानों के पास खेत-विशिष्ट सटीक सलाह का अभाव है।',
     solutionHeading: 'समाधान: एआई फील्ड एडवाइजर एजेंट',
     solutionBody: 'हमारा एआई फील्ड एडवाइजर आपकी फसल की अवस्था, खेत में पानी की स्थिति और पत्तियों के रंग का विश्लेषण करता है। यह ऐसे व्यावहारिक कदम सुझाता है जिनसे मीथेन गैस कम होती है और धान की उपज सुरक्षित रहती है।',
 
@@ -373,9 +373,9 @@ export const translations: Record<Language, Translations> = {
     saveFieldGuestPrompt: 'सभी डिवाइस पर सिंक करने के लिए साइन इन करें (वर्तमान में स्थानीय रूप से सहेजा गया)',
 
     basicsHeading: 'मीथेन बचत के बुनियादी सिद्धांत',
-    basicsSub: 'अंतर्राष्ट्रीय और राष्ट्रीय चावल अनुसंधान संस्थानों (IRRI और ICAR) द्वारा प्रमाणित सिद्धांत। स्थानीय रूप से पुष्टि करें।',
+    basicsSub: 'धान जल और पोषण प्रबंधन के सामान्य कृषि सिद्धांत। हमेशा स्थानीय स्तर पर पुष्टि करें।',
     awdCardTitle: 'वैकल्पिक गीला और सूखा (AWD)',
-    awdCardBody: 'खेत में पानी सूखने और फिर भरने से मिट्टी में हवा जाती है। इससे उपज प्रभावित किए बिना मीथेन में 30-50% की कमी और पानी में 15-30% की बचत होती है (फूल आने के समय को छोड़कर)।',
+    awdCardBody: 'खेत में पानी सूखने और फिर भरने से मिट्टी में हवा जाती है। इससे फूल आने के संवेदनशील समय को छोड़कर, उपज स्थिर रखते हुए मीथेन में संभावित कमी और पानी की बचत होती है।',
     nitrogenCardTitle: 'यूरिया की किस्तों में सही समय पर खुराक',
     nitrogenCardBody: 'खड़े पानी में यूरिया की भारी खुराक न डालें। लीफ कलर चार्ट (LCC) देखकर 3-4 छोटी किस्तों में यूरिया डालने से नुकसान कम होता है और मीथेन नहीं बढ़ती।',
     strawCardTitle: 'पराली प्रबंधन और मिट्टी का स्वास्थ्य',

@@ -34,8 +34,8 @@ export const AuthModal: React.FC = () => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs">
-      <div className="bg-card w-full max-w-md rounded-2xl border border-border shadow-2xl p-6 space-y-6 relative">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+      <div className="bg-card w-full max-w-md rounded-2xl border border-border shadow-2xl p-6 space-y-6 relative opacity-100">
         <div className="flex items-center justify-between border-b border-border pb-3">
           <div className="flex items-center space-x-2">
             <div className="p-2 rounded-lg bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-400">

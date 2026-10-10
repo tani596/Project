@@ -100,8 +100,8 @@ function sanitizeInputs(body: any): FieldInputs {
   };
 }
 
-// POST /api/advisor
-app.post('/api/advisor', async (req: Request, res: Response) => {
+// POST /api/advice or /api/advisor
+app.post(['/api/advice', '/api/advisor'], async (req: Request, res: Response) => {
   try {
     const inputs = sanitizeInputs(req.body);
     const rules = evaluateFieldRules(inputs);
@@ -260,8 +260,8 @@ Respond strictly in valid JSON format matching this schema:
   }
 });
 
-// POST /api/explain-simply
-app.post('/api/explain-simply', async (req: Request, res: Response) => {
+// POST /api/explain or /api/explain-simply
+app.post(['/api/explain', '/api/explain-simply'], async (req: Request, res: Response) => {
   try {
     const { advice, language } = req.body;
     const isHi = language === 'hi';

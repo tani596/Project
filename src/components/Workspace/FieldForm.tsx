@@ -1,24 +1,84 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import { FieldInputs, GrowthStage, WaterCondition, LeafColor } from '../../types/advisor';
 import { RotateCcw, Sparkles, MapPin, AlertCircle } from 'lucide-react';
+import { LeafColorChartModal } from '../Tools/LeafColorChartModal';
 
 interface FieldFormProps {
   inputs: FieldInputs;
   onChange: (inputs: FieldInputs) => void;
   onSubmit: () => void;
   onReset: () => void;
+  onApplyPreset?: (preset: FieldInputs) => void;
   isLoading: boolean;
 }
+
+const DEMO_PRESETS: Array<{ id: string; labelEn: string; labelHi: string; data: FieldInputs }> = [
+  {
+    id: 'flooded_tillering',
+    labelEn: 'Flooded + tillering',
+    labelHi: 'Flooded + tillering',
+    data: {
+      fieldName: 'Example paddy, Karnal',
+      latitude: 29.69,
+      longitude: 76.99,
+      growthStage: 'tillering',
+      waterCondition: 'continuously_flooded',
+      leafColor: 'mild_yellowing',
+      lastUreaDose: 60,
+      notes: 'Continuous 6 cm standing water, active vegetative tillers, Western Yamuna canal belt.',
+    },
+  },
+  {
+    id: 'flowering_drought',
+    labelEn: 'Flowering + drought',
+    labelHi: 'Flowering + drought',
+    data: {
+      fieldName: 'Demo paddy, Kaithal',
+      latitude: 29.80,
+      longitude: 76.40,
+      growthStage: 'flowering',
+      waterCondition: 'drought_stressed',
+      leafColor: 'healthy_green',
+      lastUreaDose: 40,
+      notes: 'Anthesis / flowering stage, dry spell for 6 days, cracked bund edges.',
+    },
+  },
+  {
+    id: 'awd_panicle',
+    labelEn: 'AWD + panicle initiation',
+    labelHi: 'AWD + panicle initiation',
+    data: {
+      fieldName: 'Demo paddy, Kurukshetra',
+      latitude: 29.97,
+      longitude: 76.88,
+      growthStage: 'panicle_initiation',
+      waterCondition: 'alternate_wetting_drying',
+      leafColor: 'healthy_green',
+      lastUreaDose: 45,
+      notes: 'Pani pipe installed, water dropped 12 cm below soil, panicle primordia visible.',
+    },
+  },
+];
 
 export const FieldForm: React.FC<FieldFormProps> = ({
   inputs,
   onChange,
   onSubmit,
   onReset,
+  onApplyPreset,
   isLoading,
 }) => {
-  const { t } = useApp();
+  const { t, language } = useApp();
+  const [isLccOpen, setIsLccOpen] = useState(false);
+
+  const handleApplyPresetData = (presetData: FieldInputs) => {
+    if (onApplyPreset) {
+      onApplyPreset(presetData);
+    } else {
+      onChange(presetData);
+    }
+  };
 
   const handleTextChange = (field: keyof FieldInputs, value: string) => {
     onChange({
@@ -63,6 +123,41 @@ export const FieldForm: React.FC<FieldFormProps> = ({
         </button>
       </div>
 
+      {/* Demo Presets (above the form) */}
+      <div className="space-y-2 p-3.5 rounded-xl bg-muted-bg/50 border border-border">
+        <div className="flex items-center justify-between text-xs font-bold text-foreground">
+          <span>{language === 'hi' ? 'डेमो प्रीसेट (त्वरित परीक्षण):' : 'Demo presets:'}</span>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+          {DEMO_PRESETS.map((preset) => {
+            const isSelected =
+              inputs.growthStage === preset.data.growthStage &&
+              inputs.waterCondition === preset.data.waterCondition;
+
+            return (
+              <button
+                key={preset.id}
+                type="button"
+                onClick={() => handleApplyPresetData(preset.data)}
+                disabled={isLoading}
+                className={`min-h-[44px] px-2.5 py-2 rounded-xl text-xs font-bold border transition-all text-center flex items-center justify-center cursor-pointer shadow-xs ${
+                  isSelected
+                    ? 'border-emerald-600 bg-emerald-600 text-white ring-2 ring-emerald-500/20'
+                    : 'border-border bg-card hover:bg-muted-bg text-foreground'
+                }`}
+              >
+                <span>{preset.labelEn}</span>
+              </button>
+            );
+          })}
+        </div>
+
+        <p className="text-[11px] text-muted leading-tight pt-0.5">
+          Example field: sample data, not live satellite or sensor readings.
+        </p>
+      </div>
+
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -82,7 +177,7 @@ export const FieldForm: React.FC<FieldFormProps> = ({
             placeholder={t.fieldNamePlaceholder}
             maxLength={100}
             required
-            className="w-full px-3 py-2 rounded-lg border border-border bg-background text-foreground focus:outline-hidden focus:ring-2 focus:ring-emerald-500 transition-all"
+            className="w-full px-3 py-2.5 min-h-[44px] rounded-lg border border-border bg-background text-foreground focus:outline-hidden focus:ring-2 focus:ring-emerald-500 transition-all"
           />
         </div>
 
@@ -99,7 +194,7 @@ export const FieldForm: React.FC<FieldFormProps> = ({
               value={inputs.latitude}
               onChange={(e) => handleNumberChange('latitude', e.target.value)}
               required
-              className={`w-full px-3 py-2 rounded-lg border bg-background text-foreground focus:outline-hidden focus:ring-2 focus:ring-emerald-500 transition-all ${
+              className={`w-full px-3 py-2.5 min-h-[44px] rounded-lg border bg-background text-foreground focus:outline-hidden focus:ring-2 focus:ring-emerald-500 transition-all ${
                 !isLatValid && inputs.latitude !== '' ? 'border-red-500 ring-1 ring-red-500' : 'border-border'
               }`}
             />
@@ -118,7 +213,7 @@ export const FieldForm: React.FC<FieldFormProps> = ({
               value={inputs.longitude}
               onChange={(e) => handleNumberChange('longitude', e.target.value)}
               required
-              className={`w-full px-3 py-2 rounded-lg border bg-background text-foreground focus:outline-hidden focus:ring-2 focus:ring-emerald-500 transition-all ${
+              className={`w-full px-3 py-2.5 min-h-[44px] rounded-lg border bg-background text-foreground focus:outline-hidden focus:ring-2 focus:ring-emerald-500 transition-all ${
                 !isLonValid && inputs.longitude !== '' ? 'border-red-500 ring-1 ring-red-500' : 'border-border'
               }`}
             />
@@ -136,7 +231,7 @@ export const FieldForm: React.FC<FieldFormProps> = ({
           <select
             value={inputs.growthStage}
             onChange={(e) => handleTextChange('growthStage', e.target.value as GrowthStage)}
-            className="w-full px-3 py-2 rounded-lg border border-border bg-background text-foreground focus:outline-hidden focus:ring-2 focus:ring-emerald-500 transition-all"
+            className="w-full px-3 py-2.5 min-h-[44px] rounded-lg border border-border bg-background text-foreground focus:outline-hidden focus:ring-2 focus:ring-emerald-500 transition-all"
           >
             <option value="nursery">{t.stageNursery}</option>
             <option value="transplanting">{t.stageTransplanting}</option>
@@ -162,7 +257,7 @@ export const FieldForm: React.FC<FieldFormProps> = ({
           <select
             value={inputs.waterCondition}
             onChange={(e) => handleTextChange('waterCondition', e.target.value as WaterCondition)}
-            className="w-full px-3 py-2 rounded-lg border border-border bg-background text-foreground focus:outline-hidden focus:ring-2 focus:ring-emerald-500 transition-all"
+            className="w-full px-3 py-2.5 min-h-[44px] rounded-lg border border-border bg-background text-foreground focus:outline-hidden focus:ring-2 focus:ring-emerald-500 transition-all"
           >
             <option value="continuously_flooded">{t.waterContinuouslyFlooded}</option>
             <option value="alternate_wetting_drying">{t.waterAWD}</option>
@@ -174,13 +269,22 @@ export const FieldForm: React.FC<FieldFormProps> = ({
 
         {/* Leaf Canopy & Nitrogen */}
         <div>
-          <label className="block font-semibold text-foreground mb-1">
-            {t.leafColorLabel}
-          </label>
+          <div className="flex justify-between items-center mb-1">
+            <label className="font-semibold text-foreground">
+              {t.leafColorLabel}
+            </label>
+            <button
+              type="button"
+              onClick={() => setIsLccOpen(true)}
+              className="text-[11px] font-bold text-emerald-700 dark:text-emerald-400 hover:underline flex items-center space-x-1 cursor-pointer"
+            >
+              <span>🎨 {language === 'hi' ? 'LCC चार्ट से मिलाएं' : 'IRRI LCC Chart'}</span>
+            </button>
+          </div>
           <select
             value={inputs.leafColor}
             onChange={(e) => handleTextChange('leafColor', e.target.value as LeafColor)}
-            className="w-full px-3 py-2 rounded-lg border border-border bg-background text-foreground focus:outline-hidden focus:ring-2 focus:ring-emerald-500 transition-all"
+            className="w-full px-3 py-2.5 min-h-[44px] rounded-lg border border-border bg-background text-foreground focus:outline-hidden focus:ring-2 focus:ring-emerald-500 transition-all"
           >
             <option value="healthy_green">{t.leafHealthyGreen}</option>
             <option value="mild_yellowing">{t.leafMildYellowing}</option>
@@ -206,9 +310,9 @@ export const FieldForm: React.FC<FieldFormProps> = ({
               value={inputs.lastUreaDose}
               onChange={(e) => handleNumberChange('lastUreaDose', e.target.value)}
               placeholder={t.ureaPlaceholder}
-              className="w-full px-3 py-2 pr-16 rounded-lg border border-border bg-background text-foreground focus:outline-hidden focus:ring-2 focus:ring-emerald-500 transition-all"
+              className="w-full px-3 py-2.5 min-h-[44px] pr-16 rounded-lg border border-border bg-background text-foreground focus:outline-hidden focus:ring-2 focus:ring-emerald-500 transition-all"
             />
-            <span className="absolute right-3 top-2 text-xs font-semibold text-muted pointer-events-none">
+            <span className="absolute right-3 top-3 text-xs font-semibold text-muted pointer-events-none">
               kg/ha
             </span>
           </div>
@@ -258,6 +362,14 @@ export const FieldForm: React.FC<FieldFormProps> = ({
           )}
         </button>
       </form>
+
+      {/* IRRI Leaf Color Chart Modal */}
+      <LeafColorChartModal
+        isOpen={isLccOpen}
+        onClose={() => setIsLccOpen(false)}
+        selectedColor={inputs.leafColor}
+        onSelectColor={(color) => handleTextChange('leafColor', color)}
+      />
     </div>
   );
 };

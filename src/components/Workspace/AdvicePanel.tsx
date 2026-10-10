@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import { AdviceResult, FieldInputs, SavedField } from '../../types/advisor';
+import { AudioSpeechButton } from '../Tools/AudioSpeechButton';
 import {
   ShieldAlert,
   ChevronDown,
@@ -121,7 +122,7 @@ export const AdvicePanel: React.FC<AdvicePanelProps> = ({
     if (simpleExplanation) return;
     setExplainingSimply(true);
     try {
-      const res = await fetch('/api/explain-simply', {
+      const res = await fetch('/api/explain', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ advice, language }),
@@ -200,13 +201,18 @@ AI-generated guidance. Please confirm with a local agronomist before acting.`;
           )}
         </div>
 
-        {/* Confidence Badge */}
-        <div className="flex items-center space-x-1.5 text-xs font-semibold px-2.5 py-1 rounded-full bg-muted-bg text-foreground border border-border">
-          <Activity className="w-3.5 h-3.5 text-emerald-600" />
-          <span>{t.confidence}:</span>
-          <span className="capitalize font-bold text-emerald-700 dark:text-emerald-400">
-            {advice.confidence}
-          </span>
+        <div className="flex items-center space-x-2">
+          {/* Audio speech readout */}
+          <AudioSpeechButton advice={advice} />
+
+          {/* Confidence Badge */}
+          <div className="flex items-center space-x-1.5 text-xs font-semibold px-2.5 py-1 rounded-full bg-muted-bg text-foreground border border-border">
+            <Activity className="w-3.5 h-3.5 text-emerald-600" />
+            <span>{t.confidence}:</span>
+            <span className="capitalize font-bold text-emerald-700 dark:text-emerald-400">
+              {advice.confidence}
+            </span>
+          </div>
         </div>
       </div>
 
@@ -384,7 +390,7 @@ AI-generated guidance. Please confirm with a local agronomist before acting.`;
           <button
             onClick={handleExplainSimply}
             disabled={explainingSimply}
-            className="w-full py-2.5 px-4 rounded-xl border border-emerald-600/30 bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-950/40 dark:hover:bg-emerald-900/50 text-emerald-800 dark:text-emerald-300 font-semibold text-xs sm:text-sm flex items-center justify-center space-x-2 transition-all cursor-pointer"
+            className="w-full min-h-[44px] py-2.5 px-4 rounded-xl border border-emerald-600/30 bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-950/40 dark:hover:bg-emerald-900/50 text-emerald-800 dark:text-emerald-300 font-semibold text-xs sm:text-sm flex items-center justify-center space-x-2 transition-all cursor-pointer shadow-xs active:scale-[0.99]"
           >
             <Sparkles className="w-4 h-4 text-emerald-600" />
             <span>{explainingSimply ? t.explainSimplyLoading : t.explainSimplyBtn}</span>
@@ -415,7 +421,7 @@ AI-generated guidance. Please confirm with a local agronomist before acting.`;
       {/* Compare Scenarios Button */}
       <button
         onClick={onOpenCompare}
-        className="w-full py-2.5 px-4 rounded-xl border border-sky-600/30 bg-sky-50 hover:bg-sky-100 dark:bg-sky-950/40 dark:hover:bg-sky-900/50 text-sky-800 dark:text-sky-300 font-semibold text-xs sm:text-sm flex items-center justify-center space-x-2 transition-all cursor-pointer"
+        className="w-full min-h-[44px] py-2.5 px-4 rounded-xl border border-sky-600/30 bg-sky-50 hover:bg-sky-100 dark:bg-sky-950/40 dark:hover:bg-sky-900/50 text-sky-800 dark:text-sky-300 font-semibold text-xs sm:text-sm flex items-center justify-center space-x-2 transition-all cursor-pointer shadow-xs active:scale-[0.99]"
       >
         <SplitSquareVertical className="w-4 h-4 text-sky-600" />
         <span>{t.compareScenariosBtn}</span>
@@ -459,7 +465,7 @@ AI-generated guidance. Please confirm with a local agronomist before acting.`;
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-2 text-xs font-semibold">
         <button
           onClick={handleCopyAdvice}
-          className="p-2 rounded-lg border border-border bg-muted-bg hover:bg-card text-foreground flex items-center justify-center space-x-1.5 transition-all cursor-pointer"
+          className="min-h-[44px] p-2.5 rounded-xl border border-border bg-muted-bg hover:bg-card text-foreground flex items-center justify-center space-x-1.5 transition-all cursor-pointer shadow-xs active:scale-[0.98]"
         >
           {copied ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5 text-muted" />}
           <span>{copied ? t.copiedBtn : t.copyAdviceBtn}</span>
@@ -467,7 +473,7 @@ AI-generated guidance. Please confirm with a local agronomist before acting.`;
 
         <button
           onClick={() => window.print()}
-          className="p-2 rounded-lg border border-border bg-muted-bg hover:bg-card text-foreground flex items-center justify-center space-x-1.5 transition-all cursor-pointer"
+          className="min-h-[44px] p-2.5 rounded-xl border border-border bg-muted-bg hover:bg-card text-foreground flex items-center justify-center space-x-1.5 transition-all cursor-pointer shadow-xs active:scale-[0.98]"
         >
           <Printer className="w-3.5 h-3.5 text-muted" />
           <span>{t.printPdfBtn}</span>
@@ -475,7 +481,7 @@ AI-generated guidance. Please confirm with a local agronomist before acting.`;
 
         <button
           onClick={handleWhatsAppShare}
-          className="p-2 rounded-lg border border-emerald-600/30 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-300 hover:bg-emerald-100 flex items-center justify-center space-x-1.5 transition-all cursor-pointer"
+          className="min-h-[44px] p-2.5 rounded-xl border border-emerald-600/30 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-300 hover:bg-emerald-100 flex items-center justify-center space-x-1.5 transition-all cursor-pointer shadow-xs active:scale-[0.98]"
         >
           <Send className="w-3.5 h-3.5 text-emerald-600" />
           <span>WhatsApp</span>
@@ -483,7 +489,7 @@ AI-generated guidance. Please confirm with a local agronomist before acting.`;
 
         <button
           onClick={handleSaveField}
-          className="p-2 rounded-lg border border-border bg-muted-bg hover:bg-card text-foreground flex items-center justify-center space-x-1.5 transition-all cursor-pointer"
+          className="min-h-[44px] p-2.5 rounded-xl border border-border bg-muted-bg hover:bg-card text-foreground flex items-center justify-center space-x-1.5 transition-all cursor-pointer shadow-xs active:scale-[0.98]"
         >
           <Bookmark className="w-3.5 h-3.5 text-emerald-600" />
           <span>{saveStatus || t.saveFieldBtn}</span>

@@ -24,8 +24,8 @@ export const SavedFieldsModal: React.FC<SavedFieldsModalProps> = ({ onLoadField 
   if (!isMyFieldsOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs">
-      <div className="bg-card w-full max-w-3xl rounded-2xl border border-border shadow-2xl p-6 space-y-6 relative max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+      <div className="bg-card w-full max-w-3xl rounded-2xl border border-border shadow-2xl p-6 space-y-6 relative max-h-[90vh] overflow-y-auto opacity-100">
         {/* Header */}
         <div className="flex items-center justify-between border-b border-border pb-3">
           <div className="flex items-center space-x-2.5">
@@ -50,7 +50,7 @@ export const SavedFieldsModal: React.FC<SavedFieldsModalProps> = ({ onLoadField 
         </div>
 
         {user.isGuest && (
-          <div className="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-xs flex items-center justify-between">
+          <div className="p-3.5 rounded-xl bg-amber-100 dark:bg-amber-950/80 border border-amber-300 dark:border-amber-700 text-xs flex items-center justify-between shadow-xs">
             <span className="text-foreground/80">
               You are using <strong>Guest Mode</strong>. Fields are saved in your local browser cache.
             </span>
