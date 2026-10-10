@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express';
 import { createServer as createViteServer } from 'vite';
+import { createServer as createHttpServer } from 'http';
 import path from 'path';
 import fs from 'fs';
 import net from 'net';
@@ -445,6 +446,7 @@ function getAvailablePort(startPort: number): Promise<number> {
 async function startServer() {
   const isProd = process.env.NODE_ENV === 'production';
   const selectedPort = await getAvailablePort(PORT);
+  const httpServer = createHttpServer(app);
 
   if (!isProd) {
     const vite = await createViteServer({
@@ -452,6 +454,9 @@ async function startServer() {
         middlewareMode: true,
         host: '0.0.0.0',
         port: selectedPort,
+        ws: {
+          server: httpServer,
+        },
       },
       appType: 'spa',
     });
@@ -464,7 +469,7 @@ async function startServer() {
     });
   }
 
-  app.listen(selectedPort, '0.0.0.0', () => {
+  httpServer.listen(selectedPort, '0.0.0.0', () => {
     console.log(`Rice Methane Advisor server running at http://0.0.0.0:${selectedPort}`);
   });
 }
